@@ -3,7 +3,7 @@ SECRET_KEY = "SERECT-KEY-IS-SECRET"
 #---------Database------------
 DATABASE_NAME = "bookstoredb"
 USERNAME = "root"
-DATABASE_PASSWORD = "Password123@"
+DATABASE_PASSWORD = "Password123"
 DATABASE_HOST = "localhost"
 DATABASE_PORT = "5000"
 ##dialect+driver://username:password@host:port/database
