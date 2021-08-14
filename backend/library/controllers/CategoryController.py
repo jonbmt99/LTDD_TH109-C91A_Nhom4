@@ -16,7 +16,10 @@ from library.common.util import ConvertModelListToDictList
 @app.route('/get-categories', methods=['GET', 'POST'])
 def GetCategories():
     categoriesModel = models.Categories.query.filter(models.Categories.delete_at == None)
-    categories = ConvertModelListToDictList(categoriesModel)
+    categories = ConvertModelListToDictList(categoriesModel);
+    categories = {
+        "categories": categories
+    };
     return jsonify(categories)
 
 

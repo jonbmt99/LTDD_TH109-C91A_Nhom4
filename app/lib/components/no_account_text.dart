@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
+import 'package:shop_app/providers/navigate.provider.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
@@ -15,13 +16,15 @@ class NoAccountText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Don’t have an account? ",
+          "Bạn chưa có tài khoản? ",
           style: TextStyle(fontSize: getProportionateScreenWidth(16)),
         ),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
+          onTap: () => {
+            context.read<NavigateProvider>().navigate('/register')
+          },
           child: Text(
-            "Sign Up",
+            "Đăng ký",
             style: TextStyle(
                 fontSize: getProportionateScreenWidth(16),
                 color: kPrimaryColor),

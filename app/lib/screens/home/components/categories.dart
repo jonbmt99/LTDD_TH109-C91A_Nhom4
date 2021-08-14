@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/models/category/Category.dart';
+import 'package:shop_app/providers/category.provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
 
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
+  @override
+  _CategoriesState createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
+  @override void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> categories = [
-      {"icon": "assets/icons/Flash Icon.svg", "text": "Flash Deal"},
-      {"icon": "assets/icons/Bill Icon.svg", "text": "Bill"},
-      {"icon": "assets/icons/Game Icon.svg", "text": "Game"},
-      {"icon": "assets/icons/Gift Icon.svg", "text": "Daily Gift"},
-      {"icon": "assets/icons/Discover.svg", "text": "More"},
-    ];
+    List<Category> categories = Provider.of<CategoryProvider>(context).categories;
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
       child: Row(
@@ -21,8 +27,8 @@ class Categories extends StatelessWidget {
         children: List.generate(
           categories.length,
           (index) => CategoryCard(
-            icon: categories[index]["icon"],
-            text: categories[index]["text"],
+            // icon: categories[index].image,
+            text: 'Test',
             press: () {},
           ),
         ),
@@ -34,12 +40,11 @@ class Categories extends StatelessWidget {
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     Key key,
-    @required this.icon,
     @required this.text,
     @required this.press,
   }) : super(key: key);
 
-  final String icon, text;
+  final text;
   final GestureTapCallback press;
 
   @override
@@ -58,7 +63,7 @@ class CategoryCard extends StatelessWidget {
                 color: Color(0xFFFFECDF),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SvgPicture.asset(icon),
+              child: SvgPicture.asset('assets/icons/Gift Icon.svg'),
             ),
             SizedBox(height: 5),
             Text(text, textAlign: TextAlign.center)

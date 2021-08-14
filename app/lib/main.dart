@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/authenticate.provider.dart';
+import 'package:shop_app/providers/category.provider.dart';
+import 'package:shop_app/providers/navigate.provider.dart';
+import 'package:shop_app/route-information-parser.dart';
+import 'package:shop_app/router-delegate.dart';
 import 'package:shop_app/routes.dart';
-import 'package:shop_app/screens/profile/profile_screen.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
 
@@ -12,14 +18,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: theme(),
-      // home: SplashScreen(),
-      // We use routeName so that we dont need to remember the name
-      initialRoute: SplashScreen.routeName,
-      routes: routes,
+    AppRouterDelegate _routerDelegate = AppRouterDelegate();
+    AppRouteInformationParser _routeInformationParser = AppRouteInformationParser();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthenticateProvider()),
+        ChangeNotifierProvider(create: (_) => NavigateProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Ecommerce App',
+        routerDelegate: _routerDelegate,
+        routeInformationParser: _routeInformationParser,
+        theme: theme(),
+      ),
     );
   }
 }

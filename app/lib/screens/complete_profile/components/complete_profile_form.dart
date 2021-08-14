@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/api/cutomer_api.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
+import 'package:shop_app/utils/toast.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -15,10 +17,22 @@ class CompleteProfileForm extends StatefulWidget {
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
+  String accountId;
   String firstName;
   String lastName;
   String phoneNumber;
   String address;
+
+  Future<void> createCustomer(BuildContext context) async {
+    final CreateCustomerRequest request = CreateCustomerRequest(accountId: this.accountId, lastName: this.lastName,
+        firstName: this.firstName, phone: this.phoneNumber, address: this.address);
+    try {
+      await CustomerApi.createCustomer(request);
+      EToast.success(context, 'Tạo tài khoản khách hàng thành công');
+    } catch (e) {
+      EToast.error(context, 'Tạo tài khoản khác hàng không thành công. ${(e as dynamic)['message']}');
+    }
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -51,8 +65,11 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "continue",
-            press: () {
+            press: () async {
+              this.accountId = ModalRoute.of(context).settings.arguments as String;
               if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
+                await createCustomer(context);
                 Navigator.pushNamed(context, OtpScreen.routeName);
               }
             },
@@ -151,8 +168,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       decoration: InputDecoration(
         labelText: "First Name",
         hintText: "Enter your first name",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
