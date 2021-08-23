@@ -3,8 +3,11 @@ import 'package:shop_app/api/cutomer_api.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screens/otp/otp_screen.dart';
+import 'package:shop_app/providers/authenticate.provider.dart';
 import 'package:shop_app/utils/toast.dart';
+import 'package:shop_app/providers/navigate.provider.dart';
+import 'package:provider/provider.dart';
+
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -24,6 +27,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String address;
 
   Future<void> createCustomer(BuildContext context) async {
+    this.accountId = context.read<AuthenticateProvider>().accountId;
     final CreateCustomerRequest request = CreateCustomerRequest(accountId: this.accountId, lastName: this.lastName,
         firstName: this.firstName, phone: this.phoneNumber, address: this.address);
     try {
@@ -66,11 +70,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           DefaultButton(
             text: "continue",
             press: () async {
-              this.accountId = ModalRoute.of(context).settings.arguments as String;
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 await createCustomer(context);
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                context.read<NavigateProvider>().navigate('/register');
               }
             },
           ),

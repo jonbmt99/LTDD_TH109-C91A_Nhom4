@@ -3,8 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
 import 'package:shop_app/providers/navigate.provider.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
+import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
+import 'package:shop_app/screens/qr_code_scan/qr_code_scan_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
 
@@ -31,8 +35,12 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
       pages: [
         if (!_watchingAuthenticated) SignInPage(),
         if (!_watchingAuthenticated && _routeSegments[1] == 'register') SignUpPage(),
+        if (!_watchingAuthenticated && _routeSegments[1] == 'register-info') CompleteProfilePage(),
         if (_watchingAuthenticated) HomePage(),
-        if (_watchingAuthenticated && _routeSegments[1] == 'profile') ProfilePage(),
+        if (_watchingAuthenticated &&_routeSegments[1] == 'profile') ProfilePage(),
+        if (_watchingAuthenticated &&_routeSegments[1] == 'detail') DetailPage(),
+        if(_watchingAuthenticated && _routeSegments[1] == 'cart') CartPage(),
+        if(_watchingAuthenticated && _routeSegments[1] == 'qr-code-scan') QrCodeScanPage(),
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {

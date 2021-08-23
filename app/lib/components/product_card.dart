@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/screens/details/details_screen.dart';
-
+import 'package:shop_app/providers/navigate.provider.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/product.provider.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import '../constants.dart';
 import '../size_config.dart';
 
@@ -16,7 +18,6 @@ class ProductCard extends StatelessWidget {
 
   final double width, aspectRetio;
   final Product product;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,11 +25,10 @@ class ProductCard extends StatelessWidget {
       child: SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
-          onTap: () => Navigator.pushNamed(
-            context,
-            DetailsScreen.routeName,
-            arguments: ProductDetailsArguments(product: product),
-          ),
+          onTap: () => {
+            context.read<ProductProvider>().setProductActive(product),
+            context.read<NavigateProvider>().navigate('/detail')
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -56,7 +56,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "\$${product.price}",
+                    "${FlutterMoneyFormatter(amount: product.price).output.withoutFractionDigits}đ",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,

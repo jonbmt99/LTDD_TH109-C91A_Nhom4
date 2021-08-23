@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
 
@@ -50,7 +51,7 @@ class CheckoutCard extends StatelessWidget {
                   child: SvgPicture.asset("assets/icons/receipt.svg"),
                 ),
                 Spacer(),
-                Text("Add voucher code"),
+                Text("Thêm mã khuyến mãi"),
                 const SizedBox(width: 10),
                 Icon(
                   Icons.arrow_forward_ios,
@@ -65,10 +66,10 @@ class CheckoutCard extends StatelessWidget {
               children: [
                 Text.rich(
                   TextSpan(
-                    text: "Total:\n",
+                    text: "Tổng cộng:\n",
                     children: [
                       TextSpan(
-                        text: "\$337.15",
+                        text: '${FlutterMoneyFormatter(amount: 1980000).output.withoutFractionDigits}đ',
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],
@@ -77,7 +78,7 @@ class CheckoutCard extends StatelessWidget {
                 SizedBox(
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
-                    text: "Check Out",
+                    text: "Thanh toán",
                     press: () {},
                   ),
                 ),

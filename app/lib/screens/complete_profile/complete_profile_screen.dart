@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
+class CompleteProfilePage extends Page {
+  CompleteProfilePage() : super(key: ValueKey('CompleteProfilePage'));
+
+  @override
+  Route createRoute(BuildContext context) {
+    return MaterialPageRoute(
+        settings: this,
+        builder: (BuildContext context) {
+          return CompleteProfileScreen();
+        });
+  }
+}
+
 class CompleteProfileScreen extends StatelessWidget {
-  static String routeName = "/complete_profile";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

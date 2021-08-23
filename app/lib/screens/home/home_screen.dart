@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
 import 'package:shop_app/enums.dart';
+import 'package:shop_app/models/category/Category.dart';
+import 'package:shop_app/providers/category.provider.dart';
 import 'package:shop_app/services/category.service.dart';
+import 'package:provider/provider.dart';
+
 
 import 'components/body.dart';
 

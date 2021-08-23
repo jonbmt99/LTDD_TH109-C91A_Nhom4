@@ -21,8 +21,16 @@ class AppRouteInformationParser
           return RoutePath.home();
         case "register":
           return RoutePath.register();
+        case "register-info":
+          return RoutePath.registerInfo();
         case "profile":
           return RoutePath.profile();
+        case "detail":
+          return RoutePath.detail();
+        case "cart":
+          return RoutePath.cart();
+        case "qr-code-scan":
+          return RoutePath.qrCodeScan();
         default:
           return RoutePath.login();
       }

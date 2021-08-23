@@ -3,11 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
 import 'package:shop_app/providers/category.provider.dart';
 import 'package:shop_app/providers/navigate.provider.dart';
+import 'package:shop_app/providers/product.provider.dart';
 import 'package:shop_app/route-information-parser.dart';
 import 'package:shop_app/router-delegate.dart';
-import 'package:shop_app/routes.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
-import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
 
 void main() {
@@ -25,6 +23,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthenticateProvider()),
         ChangeNotifierProvider(create: (_) => NavigateProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

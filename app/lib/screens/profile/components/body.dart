@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
-import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
+import 'package:shop_app/providers/navigate.provider.dart';
 import 'package:provider/provider.dart';
 
 import 'profile_menu.dart';
@@ -33,6 +33,13 @@ class _BodyState extends State<Body> {
             text: "Thông báo",
             icon: "assets/icons/Bell.svg",
             press: () {},
+          ),
+          ProfileMenu(
+            text: "Quét mã sản phẩm",
+            icon: "assets/icons/qr-code.svg",
+            press: () {
+              context.read<NavigateProvider>().navigate('/qr-code-scan');
+            },
           ),
           ProfileMenu(
             text: "Thiết lập",

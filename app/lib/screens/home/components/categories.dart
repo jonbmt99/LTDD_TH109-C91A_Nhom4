@@ -18,7 +18,7 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
-    List<Category> categories = Provider.of<CategoryProvider>(context).categories;
+    List<Category> categories = context.watch<CategoryProvider>().categories;
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
       child: Row(
@@ -27,8 +27,8 @@ class _CategoriesState extends State<Categories> {
         children: List.generate(
           categories.length,
           (index) => CategoryCard(
-            // icon: categories[index].image,
-            text: 'Test',
+            image: categories[index].image,
+            text: categories[index].fullName,
             press: () {},
           ),
         ),
@@ -42,9 +42,11 @@ class CategoryCard extends StatelessWidget {
     Key key,
     @required this.text,
     @required this.press,
+    @required this.image
   }) : super(key: key);
 
   final text;
+  final image;
   final GestureTapCallback press;
 
   @override
@@ -63,7 +65,7 @@ class CategoryCard extends StatelessWidget {
                 color: Color(0xFFFFECDF),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SvgPicture.asset('assets/icons/Gift Icon.svg'),
+              child: SvgPicture.asset(image),
             ),
             SizedBox(height: 5),
             Text(text, textAlign: TextAlign.center)

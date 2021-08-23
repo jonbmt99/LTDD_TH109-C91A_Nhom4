@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/api/category_api.dart';
 import 'package:shop_app/models/category/Category.dart';
 import 'package:shop_app/providers/category.provider.dart';
-import 'dart:developer' as developer;
 
-class CategoryService {
+class ProductService {
   static Future<void> getCategories({BuildContext context, bool doLoading = true}) async {
     if (doLoading) {
       context.read<CategoryProvider>().setLoading(true);

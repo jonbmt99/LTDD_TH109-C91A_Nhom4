@@ -4,8 +4,20 @@ import 'package:shop_app/models/Cart.dart';
 import 'components/body.dart';
 import 'components/check_out_card.dart';
 
+class CartPage extends Page {
+  CartPage() : super(key: ValueKey('CartPage'));
+
+  @override
+  Route createRoute(BuildContext context) {
+    return MaterialPageRoute(
+        settings: this,
+        builder: (BuildContext context) {
+          return CartScreen();
+        });
+  }
+}
+
 class CartScreen extends StatelessWidget {
-  static String routeName = "/cart";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +32,11 @@ class CartScreen extends StatelessWidget {
       title: Column(
         children: [
           Text(
-            "Your Cart",
+            "Giỏ hàng",
             style: TextStyle(color: Colors.black),
           ),
           Text(
-            "${demoCarts.length} items",
+            "${demoCarts.length} sản phẩm",
             style: Theme.of(context).textTheme.caption,
           ),
         ],

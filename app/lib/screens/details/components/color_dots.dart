@@ -34,7 +34,12 @@ class ColorDots extends StatelessWidget {
             icon: Icons.remove,
             press: () {},
           ),
-          SizedBox(width: getProportionateScreenWidth(20)),
+          SizedBox(
+            width: getProportionateScreenWidth(40),
+            child: Center(
+              child: Text('1'),
+            ),
+          ),
           RoundedIconBtn(
             icon: Icons.add,
             showShadow: true,

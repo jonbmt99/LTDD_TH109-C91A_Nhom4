@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/size_config.dart';
+import 'package:shop_app/utils/toast.dart';
 
 import 'color_dots.dart';
 import 'product_description.dart';
@@ -41,8 +42,10 @@ class Body extends StatelessWidget {
                           top: getProportionateScreenWidth(15),
                         ),
                         child: DefaultButton(
-                          text: "Add To Cart",
-                          press: () {},
+                          text: "Thêm vào giỏ hàng",
+                          press: () {
+                            EToast.success(context, 'Thêm vào giỏ hàng thành công');
+                          },
                         ),
                       ),
                     ),
