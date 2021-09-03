@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
+import 'package:shop_app/providers/cart.provider.dart';
 import 'package:shop_app/providers/category.provider.dart';
 import 'package:shop_app/providers/navigate.provider.dart';
 import 'package:shop_app/providers/product.provider.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigateProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

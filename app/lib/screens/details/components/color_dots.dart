@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/rounded_icon_btn.dart';
+import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/details/components/top_rounded_container.dart';
+import 'package:shop_app/services/cart.service.dart';
+import 'package:shop_app/utils/toast.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class ColorDots extends StatelessWidget {
+class ColorDots extends StatefulWidget {
   const ColorDots({
     Key key,
     @required this.product,
@@ -14,36 +19,72 @@ class ColorDots extends StatelessWidget {
   final Product product;
 
   @override
+  _ColorDotsState createState() => _ColorDotsState();
+}
+
+class _ColorDotsState extends State<ColorDots> {
+  int numOfItem = 1;
+  @override
   Widget build(BuildContext context) {
     // Now this is fixed and only for demo
     int selectedColor = 3;
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-      child: Row(
+      child: Column(
         children: [
-          ...List.generate(
-            product.colors.length,
-            (index) => ColorDot(
-              color: product.colors[index],
-              isSelected: index == selectedColor,
+          Row(
+            children: [
+              ...List.generate(
+                widget.product.colors.length,
+                (index) => ColorDot(
+                  color: widget.product.colors[index],
+                  isSelected: index == selectedColor,
+                ),
+              ),
+              Spacer(),
+              RoundedIconBtn(
+                icon: Icons.remove,
+                press: () {
+                  setState(() {
+                    numOfItem--;
+                  });
+                },
+              ),
+              SizedBox(
+                width: getProportionateScreenWidth(40),
+                child: Center(
+                  child: Text(numOfItem.toString()),
+                ),
+              ),
+              RoundedIconBtn(
+                icon: Icons.add,
+                showShadow: true,
+                press: () {
+                  setState(() {
+                    numOfItem++;
+                  });
+                },
+              ),
+            ],
+          ),
+          TopRoundedContainer(
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: SizeConfig.screenWidth * 0.15,
+                right: SizeConfig.screenWidth * 0.15,
+                bottom: getProportionateScreenWidth(40),
+                top: getProportionateScreenWidth(15),
+              ),
+              child: DefaultButton(
+                text: "Thêm vào giỏ hàng",
+                press: () {
+                  CartService().updateCart(context: context,item: Cart(product: widget.product,numOfItem: numOfItem));
+                  EToast.success(context, 'Thêm $numOfItem ${widget.product.title} vào giỏ hàng thành công');
+                },
+              ),
             ),
-          ),
-          Spacer(),
-          RoundedIconBtn(
-            icon: Icons.remove,
-            press: () {},
-          ),
-          SizedBox(
-            width: getProportionateScreenWidth(40),
-            child: Center(
-              child: Text('1'),
-            ),
-          ),
-          RoundedIconBtn(
-            icon: Icons.add,
-            showShadow: true,
-            press: () {},
           ),
         ],
       ),

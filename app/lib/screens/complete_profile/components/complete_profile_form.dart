@@ -4,6 +4,7 @@ import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
+import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/utils/toast.dart';
 import 'package:shop_app/providers/navigate.provider.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +28,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String address;
 
   Future<void> createCustomer(BuildContext context) async {
-    this.accountId = context.read<AuthenticateProvider>().accountId;
-    final CreateCustomerRequest request = CreateCustomerRequest(accountId: this.accountId, lastName: this.lastName,
+    final CreateCustomerRequest request = CreateCustomerRequest(accountId: "49", lastName: this.lastName,
         firstName: this.firstName, phone: this.phoneNumber, address: this.address);
     try {
       await CustomerApi.createCustomer(request);
@@ -36,6 +36,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     } catch (e) {
       EToast.error(context, 'Tạo tài khoản khác hàng không thành công. ${(e as dynamic)['message']}');
     }
+
   }
 
   void addError({String error}) {
@@ -68,12 +69,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "continue",
+            text: "Xác nhận",
             press: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 await createCustomer(context);
-                context.read<NavigateProvider>().navigate('/register');
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) =>
+                SignInScreen()));
               }
             },
           ),
@@ -99,8 +101,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Address",
-        hintText: "Enter your phone address",
+        labelText: "Địa chỉ",
+        hintText: "Nhập địa chỉ",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -128,8 +130,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Phone Number",
-        hintText: "Enter your phone number",
+        labelText: "Số điện thoại",
+        hintText: "Nhập số điện thoại",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -142,8 +144,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return TextFormField(
       onSaved: (newValue) => lastName = newValue,
       decoration: InputDecoration(
-        labelText: "Last Name",
-        hintText: "Enter your last name",
+        labelText: "Họ của bạn",
+        hintText: "Nhập họ của bạn",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -169,8 +171,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "First Name",
-        hintText: "Enter your first name",
+        labelText: "Tên của bạn",
+        hintText: "Nhập tên của bạn",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),

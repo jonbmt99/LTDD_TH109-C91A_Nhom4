@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/services/cart.service.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -69,7 +70,8 @@ class CheckoutCard extends StatelessWidget {
                     text: "Tổng cộng:\n",
                     children: [
                       TextSpan(
-                        text: '${FlutterMoneyFormatter(amount: 1980000).output.withoutFractionDigits}đ',
+                        text: '${FlutterMoneyFormatter(amount: CartService()
+                            .totalPayment(context: context)).output.withoutFractionDigits}đ',
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],

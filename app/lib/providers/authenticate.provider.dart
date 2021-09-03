@@ -11,13 +11,14 @@ class AuthenticateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   String _token = "";
-  String _accountId;
+  String _accountId = "";
 
   String get currentToken => _token;
   String get accountId => _accountId;
 
   void setAccountId(String accountId) {
     _accountId = accountId;
+    notifyListeners();
   }
 
   Future<void> updateToken(String token) async {

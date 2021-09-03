@@ -8,6 +8,7 @@ import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
 import 'package:shop_app/providers/navigate.provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -67,7 +68,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 _formKey.currentState.save();
                 final accountId = await createAccount(context);
                 AuthenticateProvider().setAccountId(accountId);
-                context.read<NavigateProvider>().navigate('/register-info');
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CompleteProfileScreen())
+                );
               }
             },
           ),

@@ -32,23 +32,6 @@ class Body extends StatelessWidget {
                 child: Column(
                   children: [
                     ColorDots(product: product),
-                    TopRoundedContainer(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.screenWidth * 0.15,
-                          right: SizeConfig.screenWidth * 0.15,
-                          bottom: getProportionateScreenWidth(40),
-                          top: getProportionateScreenWidth(15),
-                        ),
-                        child: DefaultButton(
-                          text: "Thêm vào giỏ hàng",
-                          press: () {
-                            EToast.success(context, 'Thêm vào giỏ hàng thành công');
-                          },
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

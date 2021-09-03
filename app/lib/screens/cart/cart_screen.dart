@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
+import 'package:shop_app/providers/cart.provider.dart';
+import 'package:provider/provider.dart';
 
 import 'components/body.dart';
 import 'components/check_out_card.dart';
@@ -36,7 +38,7 @@ class CartScreen extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
           Text(
-            "${demoCarts.length} sản phẩm",
+            "${context.read<CartProvider>().cart.length} sản phẩm",
             style: Theme.of(context).textTheme.caption,
           ),
         ],
