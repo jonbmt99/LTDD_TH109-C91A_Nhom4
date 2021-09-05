@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/api/account_api.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/components/no_account_text.dart';
 import 'package:shop_app/size_config.dart';
+import 'package:shop_app/utils/toast.dart';
 
 import '../../../constants.dart';
 
@@ -20,7 +22,7 @@ class Body extends StatelessWidget {
             children: [
               SizedBox(height: SizeConfig.screenHeight * 0.04),
               Text(
-                "Forgot Password",
+                "Quên mật khẩu",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(28),
                   color: Colors.black,
@@ -28,7 +30,7 @@ class Body extends StatelessWidget {
                 ),
               ),
               Text(
-                "Please enter your email and we will send \nyou a link to return to your account",
+                "Cung cấp email của bạn và chúng tôi sẽ gửi mật khẩu mới tới email này",
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: SizeConfig.screenHeight * 0.1),
@@ -50,6 +52,16 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
   String email;
+
+  sendEmailResetPassword(BuildContext context, String email) {
+    try {
+      AccountApi.sendEmailResetPassword(email);
+      EToast.success(context, "Gửi email thành công, hãy kiểm tra email của bạn");
+    } catch (e) {
+      EToast.error(context, "Email không hợp lệ");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -59,35 +71,9 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             onSaved: (newValue) => email = newValue,
-            onChanged: (value) {
-              if (value.isNotEmpty && errors.contains(kUserNameNullError)) {
-                setState(() {
-                  errors.remove(kUserNameNullError);
-                });
-              } else if (emailValidatorRegExp.hasMatch(value) &&
-                  errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.remove(kInvalidEmailError);
-                });
-              }
-              return null;
-            },
-            validator: (value) {
-              if (value.isEmpty && !errors.contains(kUserNameNullError)) {
-                setState(() {
-                  errors.add(kUserNameNullError);
-                });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.add(kInvalidEmailError);
-                });
-              }
-              return null;
-            },
             decoration: InputDecoration(
               labelText: "Email",
-              hintText: "Enter your email",
+              hintText: "Nhập email",
               // If  you are using latest version of flutter then lable text and hint text shown like this
               // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -98,10 +84,10 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           FormError(errors: errors),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           DefaultButton(
-            text: "Continue",
+            text: "Tiếp tục",
             press: () {
               if (_formKey.currentState.validate()) {
-                // Do what you want to do
+                sendEmailResetPassword(context, "mrherik@gmail.com");
               }
             },
           ),

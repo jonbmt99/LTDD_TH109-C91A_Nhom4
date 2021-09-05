@@ -7,6 +7,7 @@ import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/order/order_screen.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/qr_code_scan/qr_code_scan_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
@@ -40,6 +41,7 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
         if (_watchingAuthenticated &&_routeSegments[1] == 'profile') ProfilePage(),
         if (_watchingAuthenticated &&_routeSegments[1] == 'detail') DetailPage(),
         if(_watchingAuthenticated && _routeSegments[1] == 'cart') CartPage(),
+        if(_watchingAuthenticated && _routeSegments[1] == 'order') OrderPage(),
         if(_watchingAuthenticated && _routeSegments[1] == 'qr-code-scan') QrCodeScanPage(),
       ],
       onPopPage: (route, result) {

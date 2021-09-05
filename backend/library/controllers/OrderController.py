@@ -58,8 +58,7 @@ def DeleteOrder():
 
 
 @app.route("/admin/order-management/search-orders", methods=['POST', 'GET'])
-@owner_required
-def SearchOrders(session):
+def SearchOrders():
     req = SearchItemsReq(request.json)
     if (req.order_id):
         orders = models.Orders.query.filter(models.Orders.order_id == req.order_id)
@@ -77,7 +76,7 @@ def SearchOrders(session):
 
     orders = [order for order in orders if order.delete_at == None]
     orders = ConvertModelListToDictList(orders)
-    return jsonify(orders)
+    return jsonify({"orders": orders})
 
 @app.route("/", methods=['POST', 'GET'])
 def TestCreateOrder():

@@ -29,6 +29,8 @@ class AppRouteInformationParser
           return RoutePath.detail();
         case "cart":
           return RoutePath.cart();
+        case "order":
+          return RoutePath.order();
         case "qr-code-scan":
           return RoutePath.qrCodeScan();
         default:

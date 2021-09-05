@@ -8,6 +8,7 @@ class RoutePath {
   RoutePath.profile() : path = "/profile";
   RoutePath.detail() : path = "/detail";
   RoutePath.cart() : path = "/cart";
+  RoutePath.order() : path = "/order";
   RoutePath.qrCodeScan() : path = '/qr-code-scan';
 
   bool get isLoginPage => path == "/";
@@ -16,6 +17,7 @@ class RoutePath {
   bool get isProfilePage => path == "/profile";
   bool get isDetailPage => path == "/detail";
   bool get isCartPage => path == "/cart";
+  bool get isOrderPage => path == "/order";
   bool get isQrCodeScanPage => path == "/qr-code-scan";
   bool get registerInfo => path == "/register-info";
 }

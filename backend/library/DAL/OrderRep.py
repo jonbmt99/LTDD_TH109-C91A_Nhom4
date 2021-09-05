@@ -38,7 +38,7 @@ def CreateOrder(order: CreateOrderReq):
         if order_book.new_amount < 0:
             raise ErrorRsp(code=400, message='Số lượng sách tồn kho đã hết.')
         new_order_detail = models.Orderdetails(order_id= create_order.serialize()['order_id'], book_id=order_detail['book_id'], retail_price=order_book.serialize()['retail_price'],
-                                               discount= order_book.serialize()['discount'], total= (1 - order_book.serialize()['discount']) * (order_book.serialize()['retail_price']*order_detail['quantity']), quantity=order_detail['quantity'])
+                                                total= (1 - order_book.serialize()['discount']) * (order_book.serialize()['retail_price']*order_detail['quantity']), quantity=order_detail['quantity'])
         create_order.order_details.append(new_order_detail)
 
     db.session.commit()

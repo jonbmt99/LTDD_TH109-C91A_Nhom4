@@ -3,6 +3,8 @@ from sqlalchemy import or_
 from library import app
 from library.BLL import CustomerSvc
 from library.DAL import models
+from library.auth.security import decrypt_caesar, decrypt_playfair, generate_key_vigenerce_cipher, \
+    decryption_vigenerce_cipher
 from library.common.Req.CustomerReq import CreateCustomerReq, UpdateCustomerReq, DeleteCustomerReq, SearchCustomersReq
 from library.common.Req.GetItemsByPageReq import GetItemsByPageReq, SearchItemsReq
 from library.common.Rsp.CustomerRsp import SearchCustomersRsp
@@ -49,7 +51,13 @@ def SearchCustomers():
     req = SearchItemsReq(request.json)
     if (req.customer_id):
         customers = models.Customers.query.filter(models.Customers.customer_id == req.customer_id)
-        return jsonify(ConvertModelListToDictList(customers))
+        for customer in customers:
+            customer.phone = decrypt_caesar(5, customer.phone)
+            strs = customer.email.split("@")
+            customer.email = decrypt_playfair(strs[0]).lower() + "@" + strs[1]
+            vigenerceKey = generate_key_vigenerce_cipher(customer.address, "TRUONG")
+            customer.address = decryption_vigenerce_cipher(customer.address, vigenerceKey)
+        return jsonify({"customer": ConvertModelListToDictList(customers)})
 
     all_customers = models.Customers.query.all()
     if req.customer_name != None:

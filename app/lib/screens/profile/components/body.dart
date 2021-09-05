@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/providers/authenticate.provider.dart';
 import 'package:shop_app/providers/navigate.provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/screens/detail-customer/profile_screen.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -27,7 +28,11 @@ class _BodyState extends State<Body> {
           ProfileMenu(
             text: "Thông tin tài khoản",
             icon: "assets/icons/User Icon.svg",
-            press: () => {},
+            press: () => {
+              Navigator.of(context).push(
+               MaterialPageRoute(builder: (context) => DetailCustomerScreen())
+              )
+            },
           ),
           ProfileMenu(
             text: "Thông báo",

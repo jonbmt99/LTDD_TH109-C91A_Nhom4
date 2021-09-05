@@ -12,12 +12,21 @@ class AuthenticateProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   String _token = "";
   String _accountId = "";
+  String _customerId;
+  String _fullName = "";
 
   String get currentToken => _token;
   String get accountId => _accountId;
+  String get customerId => _customerId;
+  String get fullName => _fullName;
 
   void setAccountId(String accountId) {
     _accountId = accountId;
+    notifyListeners();
+  }
+
+  void setFullName(String fullName) {
+    _fullName = fullName;
     notifyListeners();
   }
 
@@ -33,10 +42,22 @@ class AuthenticateProvider with ChangeNotifier, DiagnosticableTreeMixin {
     }
   }
 
+  Future<void> updateCustomerId(String customerId) async {
+    _customerId = customerId;
+    notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('customerId', customerId);
+    if (customerId.isEmpty) {
+      prefs.setString("customerId", "");
+    }
+  }
+
   Future<SharedPreferences> checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     try {
       updateToken(prefs.getString('token') ?? "");
+      updateCustomerId(prefs.getString('customerId') ?? "");
     } catch (e) {
       print("ERROR in checkToken $e");
       updateToken("");

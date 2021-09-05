@@ -67,7 +67,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 final accountId = await createAccount(context);
-                AuthenticateProvider().setAccountId(accountId);
+                context.read<AuthenticateProvider>().setAccountId(accountId);
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => CompleteProfileScreen())
                 );

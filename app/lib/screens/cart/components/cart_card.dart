@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:shop_app/components/rounded_icon_btn.dart';
 import 'package:shop_app/models/Cart.dart';
 
 import '../../../constants.dart';
@@ -41,17 +42,32 @@ class CartCard extends StatelessWidget {
               maxLines: 2,
             ),
             SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: "${FlutterMoneyFormatter(amount: cart.product.price).output.withoutFractionDigits}đ",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                children: [
+            Row(
+              children: [
+                Text.rich(
                   TextSpan(
-                      text: " x${cart.numOfItem}",
-                      style: Theme.of(context).textTheme.bodyText1),
-                ],
-              ),
+                    text: "${FlutterMoneyFormatter(amount: cart.product.price).output.withoutFractionDigits}đ",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: kPrimaryColor),
+                    children: [
+                      TextSpan(
+                          text: " x${cart.numOfItem}",
+                          style: Theme.of(context).textTheme.bodyText1),
+                    ],
+                  ),
+                ),
+                RoundedIconBtn(
+                  icon: Icons.remove,
+                  showShadow: true,
+                  press: () {
+                  },
+                ),
+                RoundedIconBtn(
+                  icon: Icons.add,
+                  showShadow: true,
+                  press: () {},
+                ),
+              ],
             )
           ],
         )

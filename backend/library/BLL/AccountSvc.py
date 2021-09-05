@@ -101,19 +101,18 @@ def SendResetPasswordEmailCustomer(req: SendResetPasswordEmailReq):
     reset_email_token = jwt.encode(payload, secect_key).decode('utf-8')
 
     msg = EmailMessage()
-    msg['Subject'] = 'Khôi phục mật khẩu Thư quán Đại học Mở TPHCM'
+    msg['Subject'] = 'Khôi phục mật khẩu shop app'
     msg['From'] = app.config['MAIL_USERNAME']
     msg['To'] = req.email
     msg.set_content(
         f'''    Gửi {app.config['MAIL_USERNAME']},
-    Bạn (hoặc một ai đó) đang muốn khôi phục mật khẩu của tài khoản shinichi24567@gmail.com-01-test.
-    Nếu là bạn, hãy bấm vào liên kết bên dưới để khôi phục mật khẩu: (có hiệu lực trong 24 giờ)
 
-    http://localhost:4200/reset-password?token={reset_email_token}
+    Mật khẩu mới của bàn là: 123456789
     Nếu không phải bạn, hãy bỏ qua email này.
 
-    Đội ngũ quản lý thư quán Đại học Mở TPHCM!
+    Đội ngũ quản lý shop app!
 ''')
+    AccountRep.ResetPassword(account['account_id'], '123456789')
     smtp.send_message(msg)
     return " Vui lòng kiểm tra email để reset mật khẩu"
 

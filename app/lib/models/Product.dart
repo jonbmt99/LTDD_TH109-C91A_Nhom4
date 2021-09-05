@@ -39,7 +39,7 @@ List<Product> demoProducts = [
       Colors.white,
     ],
     title: "Tay cầm không dây PS4™",
-    price: 500000,
+    price: 600000,
     description: description,
     rating: 4.8,
     isFavourite: true,

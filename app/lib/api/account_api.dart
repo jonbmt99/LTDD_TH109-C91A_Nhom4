@@ -22,6 +22,23 @@ class AccountApi {
     }
   }
 
+  static Future<dynamic> sendEmailResetPassword(String email) async {
+    try {
+      return await http.post('/send-reset-password-email-customer', {"email": email});
+    } catch (e) {
+      print('ERROR in send email reset password. $e');
+      return e;
+    }
+  }
+
+  static Future<dynamic> getCustomer(int customerId) async {
+    try {
+      return await http.post('/admin/customer-management/search-customers', {"customer_id": customerId});
+    } catch (e) {
+      print('Error in get customer. $e');
+      return e;
+    }
+  }
 }
 
 class LoginRequest {

@@ -1,16 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/api/order_api.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/providers/authenticate.provider.dart';
+import 'package:shop_app/providers/cart.provider.dart';
 import 'package:shop_app/services/cart.service.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/utils/toast.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class CheckoutCard extends StatelessWidget {
+class CheckoutCard extends StatefulWidget {
+
   const CheckoutCard({
     Key key,
   }) : super(key: key);
+
+  @override
+  _CheckoutCardState createState() => _CheckoutCardState();
+}
+
+class _CheckoutCardState extends State<CheckoutCard> {
+  createOrder(BuildContext context) {
+    final currentCart = context.read<CartProvider>().cart;
+    if(currentCart.isEmpty) {
+      EToast.error(context, "Giỏ hàng chưa có sản phẩm");
+      return;
+    }
+    else {
+      try {
+        List<OrderDetail> listOrderDetail = [];
+        currentCart.forEach((item) {
+          listOrderDetail.add(OrderDetail(productId: item.product.id, quantity: item.numOfItem));
+        });
+        final request = CreateOrderRequest(customerId: context.read<AuthenticateProvider>().customerId, orderDetailList: listOrderDetail);
+        OrderApi.createOrder(request);
+        EToast.success(context, "Tạo đơn hàng thành công");
+        context.read<CartProvider>().clearCart();
+      } catch (e) {
+        print("Error in create order $e");
+        EToast.error(context, "Tạo đơn hàng thất bại");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +115,12 @@ class CheckoutCard extends StatelessWidget {
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
                     text: "Thanh toán",
-                    press: () {},
+                    press: () {
+                      setState(() {
+                        createOrder(context);
+                      });
+                      }
+                    ,
                   ),
                 ),
               ],

@@ -7,6 +7,8 @@ from flask import request, jsonify
 
 from library import app, smtp, db
 from library.BLL import AccountSvc
+from library.auth.security import encrypt_playfair, decrypt_playfair, encryption_vigenerce_cipher, \
+    generate_key_vigenerce_cipher, decryption_vigenerce_cipher
 from library.common.Req.AccountReq import CreateAccountReq, DeleteAccountReq, LoginReq, LoginRsp, SearchAccountsReq, \
     SendResetPasswordEmailReq, ResetPasswordReq, ChangePasswordReq, CreateCustomerAccountReq, CreateEmployeeAccountReq
 from library.common.Req.CustomerReq import SearchCustomersReq
@@ -21,6 +23,16 @@ from email.message import EmailMessage
 
 from library.common.util import ConvertModelListToDictList, ConvertModelListToJson
 
+@app.route("/test-play-fair", methods=['POST', 'GET'])
+def TestCreateOrder123():
+    str = "mrherik";
+    key = generate_key_vigenerce_cipher(str.upper(), "TRUONG")
+
+    cipher_text = encryption_vigenerce_cipher(str.upper(), key)
+    print(cipher_text)
+    print(decryption_vigenerce_cipher(cipher_text, key))
+
+    return "return"
 
 @app.route('/admin/account-management/create-account', methods=['POST'])
 def CreateAccount() -> CreateAccountReq:
@@ -163,7 +175,7 @@ def updateSession():
 def SendResetPasswordEmailCustomer():
     req = SendResetPasswordEmailReq(request.json)
     result = AccountSvc.SendResetPasswordEmailCustomer(req)
-    return jsonify(result)
+    return jsonify({"message": result})
 
 
 @app.route('/send-reset-password-email-employee', methods=['POST'])

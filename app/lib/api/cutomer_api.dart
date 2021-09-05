@@ -12,7 +12,6 @@ class CustomerApi {
       return e;
     }
   }
-
 }
 
 class CreateCustomerRequest {

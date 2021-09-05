@@ -36,10 +36,12 @@ class _SignFormState extends State<SignForm> {
       final res = await AccountApi.login(loginRequest);
 
       final String token = res["access_token"] ?? "";
+      final String customerId = res["user_info"]["customer_id"].toString() ?? "";
       if(token.isEmpty){
         EToast.error(context, "Đăng nhập thất bại. ${(res as dynamic)["msg"]}");
       } else {
         context.read<AuthenticateProvider>().updateToken(token);
+        context.read<AuthenticateProvider>().updateCustomerId(customerId);
       }
     } catch (e) {
       print("Error in login $e");
@@ -88,8 +90,9 @@ class _SignFormState extends State<SignForm> {
               Text("Lưu thông tin"),
               Spacer(),
               GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                    context, ForgotPasswordScreen.routeName),
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ForgotPasswordScreen())
+                ),
                 child: Text(
                   "Quên mật khẩu",
                   style: TextStyle(decoration: TextDecoration.underline),

@@ -1,6 +1,8 @@
 from sqlalchemy import or_
 
 from library import db
+from library.auth.security import encrypt_caesar, encrypt_playfair, generate_key_vigenerce_cipher, \
+    encryption_vigenerce_cipher
 from library.common.Req import GetItemsByPageReq
 from library.common.Req.CustomerReq import CreateCustomerReq, UpdateCustomerReq, DeleteCustomerReq, SearchCustomersReq
 from library.DAL import models
@@ -8,6 +10,7 @@ from flask import jsonify, json
 from library.DAL.models import Accounts
 from datetime import datetime
 from library.common.util import ConvertModelListToDictList
+
 
 
 def GetCustomersByPage(req: GetItemsByPageReq):
@@ -19,15 +22,20 @@ def GetCustomersByPage(req: GetItemsByPageReq):
 
 
 def CreatCustomer(req: CreateCustomerReq):
+    encryptPhone = encrypt_caesar(5, req.phone);
+    strs = req.email.split("@");
+    encryptEmail = encrypt_playfair(strs[0]) + "@" + strs[1];
+    vigenerceKey = generate_key_vigenerce_cipher(req.address, "TRUONG")
+    encryptAddress = encryption_vigenerce_cipher(req.address, vigenerceKey)
     create_customer = models.Customers(
                                        account_id=req.account_id,
                                        last_name=req.last_name,
                                        first_name=req.first_name,
-                                       phone=req.phone,
+                                       phone=encryptPhone,
                                        birth_date=req.birth_date,
-                                       address=req.address,
+                                       address= encryptAddress,
                                        gender=req.gender,
-                                       email=req.email,
+                                       email= encryptEmail,
                                        note=req.note,
                                        delete_at=req.delete_at,
                                        province_id = req.province_id,

@@ -24,12 +24,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String accountId;
   String firstName;
   String lastName;
+  String email;
   String phoneNumber;
   String address;
 
   Future<void> createCustomer(BuildContext context) async {
-    final CreateCustomerRequest request = CreateCustomerRequest(accountId: "49", lastName: this.lastName,
-        firstName: this.firstName, phone: this.phoneNumber, address: this.address);
+    String accountId = context.read<AuthenticateProvider>().accountId;
+    final CreateCustomerRequest request = CreateCustomerRequest(accountId: accountId, lastName: this.lastName,
+        firstName: this.firstName, email: this.email, phone: this.phoneNumber, address: this.address);
     try {
       await CustomerApi.createCustomer(request);
       EToast.success(context, 'Tạo tài khoản khách hàng thành công');
@@ -62,6 +64,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildFirstNameFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildLastNameFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumberFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
@@ -146,6 +150,20 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       decoration: InputDecoration(
         labelText: "Họ của bạn",
         hintText: "Nhập họ của bạn",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildEmailFormField() {
+    return TextFormField(
+      onSaved: (newValue) => email = newValue,
+      decoration: InputDecoration(
+        labelText: "Email của bạn",
+        hintText: "Nhập email của bạn",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
